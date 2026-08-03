@@ -1,0 +1,587 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CBT Exam | NACOS ExamBite</title>
+
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<style>
+
+.option-btn {
+
+transition:.3s;
+
+}
+
+
+.option-btn:hover {
+
+transform:translateY(-3px);
+
+}
+
+
+.selected {
+
+border:3px solid #06b6d4 !important;
+background:#164e63 !important;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+
+
+<div class="max-w-5xl mx-auto px-5 py-8">
+
+
+
+
+
+<!-- HEADER -->
+
+<div class="flex flex-col md:flex-row justify-between items-center gap-5 mb-8">
+
+
+<div>
+
+<p class="text-cyan-400 font-bold">
+
+NACOS ExamBite
+
+</p>
+
+
+<h1 class="text-3xl font-black">
+
+CBT Examination
+
+</h1>
+
+
+<p class="text-gray-400">
+
+{{ note.title }}
+
+</p>
+
+
+</div>
+
+
+
+
+<div class="bg-slate-900 border border-slate-800 px-6 py-3 rounded-2xl">
+
+<i class="fa-solid fa-clock text-cyan-400 mr-2"></i>
+
+<span id="timer">
+
+30:00
+
+</span>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- QUESTION NAVIGATOR -->
+
+<div class="mb-8">
+
+<div class="text-center mb-5">
+
+<span id="questionCount"
+class="bg-cyan-500 text-slate-950 px-6 py-2 rounded-full font-bold">
+
+Question 1
+
+</span>
+
+</div>
+
+
+<div id="questionGrid"
+class="grid grid-cols-5 sm:grid-cols-10 gap-3 bg-slate-900 border border-slate-800 rounded-3xl p-5">
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+<!-- QUESTION CARD -->
+
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl">
+
+
+
+<h2 id="questionText"
+
+class="text-2xl font-bold leading-relaxed">
+
+</h2>
+
+
+
+
+
+<div id="options"
+
+class="grid gap-4 mt-8">
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- NAVIGATION -->
+
+
+<div class="flex justify-between mt-8">
+
+
+<button
+onclick="previousQuestion()"
+
+class="bg-slate-800 hover:bg-slate-700 px-6 py-3 rounded-xl font-bold">
+
+
+<i class="fa-solid fa-chevron-left mr-2"></i>
+
+Previous
+
+
+</button>
+
+
+
+
+
+<button
+onclick="nextQuestion()"
+
+class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-6 py-3 rounded-xl font-bold">
+
+
+Next
+
+<i class="fa-solid fa-chevron-right ml-2"></i>
+
+
+</button>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+const questions = [
+
+
+{% for q in questions %}
+
+
+{
+
+question:"{{ q.question|escapejs }}",
+
+options:[
+
+{% for option in q.options %}
+
+"{{ option|escapejs }}",
+
+{% endfor %}
+
+],
+
+answer:"{{ q.answer|escapejs }}",
+
+explanation:"{{ q.explanation|escapejs }}"
+
+
+},
+
+
+{% endfor %}
+
+
+
+];
+
+
+
+let current = 0;
+
+
+let answers = new Array(
+questions.length
+).fill(null);
+
+function createQuestionGrid(){
+
+    const grid = document.getElementById("questionGrid");
+
+    grid.innerHTML = "";
+
+
+    questions.forEach((q,index)=>{
+
+
+        let button = document.createElement("button");
+
+
+        button.innerText = index + 1;
+
+
+        button.className =
+        "bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 rounded-xl py-3 font-bold transition";
+
+
+        button.onclick = function(){
+
+            current = index;
+
+            loadQuestion();
+
+        };
+
+
+        grid.appendChild(button);
+
+
+    });
+
+}
+
+
+
+
+function loadQuestion(){
+
+
+let q = questions[current];
+
+
+
+document.getElementById(
+"questionCount"
+).innerText =
+"Question " + (current+1) + " of " + questions.length;
+
+
+
+
+document.getElementById(
+"questionText"
+).innerText =
+q.question;
+
+
+
+let box =
+document.getElementById("options");
+
+
+box.innerHTML="";
+
+
+
+q.options.forEach(option=>{
+
+
+let button=document.createElement("button");
+
+
+button.innerHTML=option;
+
+
+button.className =
+"option-btn bg-slate-800 hover:bg-slate-700 p-5 rounded-2xl text-left font-semibold";
+
+
+
+if(answers[current]===option){
+
+button.classList.add("selected");
+
+}
+
+
+
+button.onclick=function(){
+
+
+answers[current]=option;
+
+loadQuestion();
+
+
+}
+
+
+
+box.appendChild(button);
+
+
+
+});
+
+updateQuestionGrid();
+
+}
+
+function updateQuestionGrid(){
+
+    const buttons =
+    document.querySelectorAll("#questionGrid button");
+
+
+    buttons.forEach((button,index)=>{
+
+
+        button.className =
+        "bg-slate-800 hover:bg-cyan-500 hover:text-slate-950 rounded-xl py-3 font-bold transition";
+
+
+        if(answers[index]){
+
+            button.classList.add(
+                "bg-green-600"
+            );
+
+        }
+
+
+        if(index === current){
+
+            button.classList.add(
+                "ring-4",
+                "ring-cyan-400"
+            );
+
+        }
+
+
+    });
+
+}
+
+
+
+function nextQuestion(){
+
+
+if(current < questions.length-1){
+
+
+current++;
+
+loadQuestion();
+
+
+}else{
+
+
+submitExam();
+
+
+}
+
+
+}
+
+
+
+
+
+function previousQuestion(){
+
+
+if(current>0){
+
+current--;
+
+loadQuestion();
+
+}
+
+
+}
+
+
+
+
+
+
+function submitExam(){
+
+
+let score=0;
+
+
+
+questions.forEach((q,index)=>{
+
+
+if(answers[index]===q.answer){
+
+score++;
+
+}
+
+
+});
+
+
+
+document.body.innerHTML=`
+
+<div class="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-10 text-center">
+
+
+<i class="fa-solid fa-trophy text-6xl text-cyan-400"></i>
+
+
+<h1 class="text-4xl font-black mt-5">
+
+Exam Completed
+
+</h1>
+
+
+<p class="text-6xl font-black text-cyan-400 mt-6">
+
+${score}/${questions.length}
+
+</p>
+
+
+
+<a href="{% url 'notes' %}"
+
+class="inline-block mt-8 bg-cyan-500 text-slate-950 px-8 py-4 rounded-xl font-bold">
+
+Back to Notes
+
+</a>
+
+
+</div>
+
+</div>
+
+`;
+
+
+
+}
+
+
+
+
+
+
+
+// TIMER
+
+
+let time = 1800;
+
+
+setInterval(()=>{
+
+
+let minutes=Math.floor(time/60);
+
+let seconds=time%60;
+
+
+document.getElementById("timer").innerText=
+
+minutes + ":" + (seconds<10?"0":"")+seconds;
+
+
+
+time--;
+
+
+if(time<0){
+
+submitExam();
+
+}
+
+
+},1000);
+
+
+
+
+
+createQuestionGrid();
+
+loadQuestion();
+
+
+
+</script>
+
+
+</body>
+
+</html>

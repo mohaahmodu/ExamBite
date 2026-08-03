@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Lecture Note</title>
+
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="bg-slate-950 text-white">
+
+<div class="max-w-3xl mx-auto py-12 px-6">
+
+    <div class="mb-8">
+
+        <h1 class="text-4xl font-bold text-cyan-400">
+            Upload Lecture Note
+        </h1>
+
+        <p class="text-gray-400 mt-2">
+            Upload your lecture notes and let AI generate summaries, flashcards and CBT questions.
+        </p>
+
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mb-5 p-4 rounded-lg bg-cyan-600">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST"
+          enctype="multipart/form-data"
+          class="bg-slate-900 rounded-2xl p-8 shadow-xl">
+
+        {% csrf_token %}
+
+        <label class="block mb-2">
+            Lecture Title
+        </label>
+
+        <input
+            type="text"
+            name="title"
+            required
+            placeholder="Example: CSC 301 Operating Systems"
+            class="w-full p-4 rounded-lg bg-slate-800 mb-6">
+
+        <label class="block mb-4">
+            Upload File
+        </label>
+
+        <label class="border-2 border-dashed border-cyan-500 rounded-xl p-10 flex flex-col items-center cursor-pointer hover:bg-slate-800 transition">
+
+            <i class="fa-solid fa-cloud-arrow-up text-6xl text-cyan-400 mb-5"></i>
+
+            <p class="text-lg font-semibold">
+                Click to choose a file
+            </p>
+
+            <p class="text-gray-400 mt-2">
+                PDF • DOCX • TXT
+            </p>
+
+            <input
+                id="fileInput"
+                type="file"
+                name="file"
+                accept=".pdf,.docx,.txt"
+                class="hidden">
+
+        </label>
+
+        <p id="fileName"
+           class="text-green-400 mt-4"></p>
+
+        <button
+            class="w-full mt-8 bg-cyan-500 hover:bg-cyan-600 py-4 rounded-xl text-lg font-bold">
+
+            Upload Note
+
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+const fileInput=document.getElementById("fileInput");
+const fileName=document.getElementById("fileName");
+
+fileInput.addEventListener("change",function(){
+
+    if(this.files.length>0){
+
+        fileName.innerHTML="Selected File: "+this.files[0].name;
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

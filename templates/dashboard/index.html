@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - NACOS ExamBite</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+
+<body class="bg-slate-950 text-white">
+
+<div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 p-6">
+
+        <h1 class="text-2xl font-bold text-cyan-400">
+            NACOS ExamBite
+        </h1>
+
+        <nav class="mt-10 space-y-4">
+
+            <a href="#" class="block hover:text-cyan-400">🏠 Dashboard</a>
+
+            <a href="#" class="block hover:text-cyan-400">📄 My Notes</a>
+
+            <a href="#" class="block hover:text-cyan-400">🤖 AI Summary</a>
+
+            <a href="#" class="block hover:text-cyan-400">📝 AI CBT Simulator</a>
+
+            <a href="#" class="block hover:text-cyan-400">🧠 Flashcards</a>
+
+            <a href="#" class="block hover:text-cyan-400">⚙ Settings</a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-10">
+
+        <h2 class="text-4xl font-bold">
+            Welcome 👋
+        </h2>
+
+        <p class="text-gray-400 mt-2">
+            Ready to study smarter today?
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+
+            <div class="bg-slate-900 rounded-xl p-6">
+                <h3 class="text-gray-400">Uploaded Notes</h3>
+                <p class="text-4xl font-bold mt-3">0</p>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-6">
+                <h3 class="text-gray-400">AI Exams</h3>
+                <p class="text-4xl font-bold mt-3">0</p>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl p-6">
+                <h3 class="text-gray-400">Flashcards</h3>
+                <p class="text-4xl font-bold mt-3">0</p>
+            </div>
+
+        </div>
+
+        <div class="mt-10">
+
+            <a href="{% url 'upload_note' %}"
+class="bg-cyan-500 px-6 py-3 rounded-lg hover:bg-cyan-600 inline-block">
+
+Upload Lecture Note
+
+</a>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

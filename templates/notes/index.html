@@ -1,0 +1,835 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Notes | NACOS ExamBite</title>
+
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<style>
+
+/* Notification System */
+
+.notification {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 99999;
+    min-width: 320px;
+    max-width: 90%;
+    padding: 16px 20px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    box-shadow: 0 20px 40px rgba(0,0,0,.35);
+    animation: slideIn .4s ease;
+}
+
+
+.notification.success {
+    background: #166534;
+    border: 1px solid #22c55e;
+}
+
+
+.notification.error {
+    background: #991b1b;
+    border: 1px solid #ef4444;
+}
+
+
+.notification.warning {
+    background: #92400e;
+    border: 1px solid #f59e0b;
+}
+
+
+.notification.info {
+    background: #1e40af;
+    border: 1px solid #3b82f6;
+}
+
+
+.notification.hide {
+
+    opacity:0;
+    transform:translateX(120%);
+    transition:.4s ease;
+
+}
+
+
+@keyframes slideIn {
+
+from {
+    transform:translateX(120%);
+    opacity:0;
+}
+
+to {
+    transform:translateX(0);
+    opacity:1;
+}
+
+}
+
+
+
+/* Page Cards */
+
+.note-card {
+
+    transition:.35s ease;
+
+}
+
+
+.note-card:hover {
+
+    transform:translateY(-8px);
+    box-shadow:0 25px 50px rgba(0,0,0,.35);
+
+}
+
+
+
+.tool-card {
+
+    transition:.3s ease;
+
+}
+
+
+.tool-card:hover {
+
+    transform:translateY(-5px) scale(1.03);
+
+}
+
+
+
+/* Delete Modal */
+
+.delete-overlay {
+
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(8px);
+    z-index:9999;
+    align-items:center;
+    justify-content:center;
+
+}
+
+
+.delete-box {
+
+    width:90%;
+    max-width:380px;
+    background:#0f172a;
+    border:1px solid #334155;
+    border-radius:25px;
+    padding:30px;
+    text-align:center;
+    animation:pop .3s ease;
+
+}
+
+
+@keyframes pop {
+
+from {
+
+transform:scale(.8);
+opacity:0;
+
+}
+
+to {
+
+transform:scale(1);
+opacity:1;
+
+}
+
+}
+
+
+
+/* Gradient Header */
+
+.hero-box {
+
+background:
+linear-gradient(
+135deg,
+rgba(6,182,212,.15),
+rgba(99,102,241,.15)
+);
+
+border:1px solid rgba(148,163,184,.15);
+
+backdrop-filter:blur(10px);
+
+}
+
+
+</style>
+
+</head>
+
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+
+<!-- Notifications -->
+
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="notification {{ message.tags }}" id="notification">
+
+
+{% if message.tags == "success" %}
+
+<i class="fa-solid fa-circle-check text-xl"></i>
+
+
+{% elif message.tags == "error" %}
+
+<i class="fa-solid fa-circle-xmark text-xl"></i>
+
+
+{% elif message.tags == "warning" %}
+
+<i class="fa-solid fa-triangle-exclamation text-xl"></i>
+
+
+{% else %}
+
+<i class="fa-solid fa-circle-info text-xl"></i>
+
+
+{% endif %}
+
+
+<span>
+{{ message }}
+</span>
+
+
+</div>
+
+
+{% endfor %}
+
+{% endif %}
+
+
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+
+<!-- HEADER -->
+
+<div class="hero-box rounded-3xl p-8 mb-12">
+
+
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+
+
+<div>
+
+
+<p class="text-cyan-400 font-bold tracking-wide">
+
+<i class="fa-solid fa-graduation-cap mr-2"></i>
+
+NACOS ExamBite
+
+</p>
+
+
+<h1 class="text-5xl font-black mt-3">
+
+My Lecture Notes
+
+</h1>
+
+
+<p class="text-gray-400 mt-3 text-lg">
+
+{{ notes|length }} Note{{ notes|length|pluralize }} uploaded
+
+</p>
+
+
+</div>
+
+
+
+<a href="{% url 'upload_note' %}"
+
+class="bg-cyan-500 hover:bg-cyan-400 text-slate-950 px-8 py-4 rounded-2xl font-black transition shadow-lg">
+
+
+<i class="fa-solid fa-cloud-arrow-up mr-2"></i>
+
+Upload Note
+
+
+</a>
+
+
+</div>
+
+
+</div>
+
+{% if notes %}
+
+<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
+
+
+{% for note in notes %}
+
+
+<div class="note-card bg-slate-900/80 border border-slate-800 rounded-3xl overflow-hidden shadow-xl">
+
+
+<!-- Note Top -->
+
+<div class="p-7">
+
+
+<div class="flex justify-between gap-4">
+
+
+<div class="flex-1">
+
+
+<h2 class="text-xl font-black break-words">
+
+{{ note.title }}
+
+</h2>
+
+
+<p class="text-gray-400 text-sm mt-3">
+
+<i class="fa-regular fa-clock mr-2"></i>
+
+{{ note.uploaded_at|date:"M d, Y • h:i A" }}
+
+</p>
+
+
+</div>
+
+
+
+<span class="bg-cyan-400 text-slate-950 px-4 py-2 rounded-full text-xs font-black h-fit">
+
+{{ note.file_type|upper }}
+
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<!-- AI Tools -->
+
+<div class="border-t border-slate-800 p-7">
+
+
+<h3 class="text-cyan-400 font-black mb-6 flex items-center gap-2">
+
+<i class="fa-solid fa-robot"></i>
+
+AI Study Tools
+
+</h3>
+
+
+
+<div class="grid grid-cols-2 gap-4">
+
+
+
+<a href="{% url 'generate_summary' note.id %}"
+
+class="tool-card bg-cyan-600 hover:bg-cyan-500 rounded-2xl p-4 text-center font-bold">
+
+
+<i class="fa-solid fa-file-lines text-2xl block mb-2"></i>
+
+Summary
+
+
+</a>
+
+
+
+
+
+<a href="{% url 'generate_cbt' note.id %}"
+
+class="tool-card bg-indigo-600 hover:bg-indigo-500 rounded-2xl p-4 text-center font-bold">
+
+
+<i class="fa-solid fa-circle-question text-2xl block mb-2"></i>
+
+Questions
+
+
+</a>
+
+
+
+
+
+<a href="{% url 'flashcard_setup' note.id %}"
+
+class="tool-card bg-emerald-600 hover:bg-emerald-500 rounded-2xl p-4 text-center font-bold">
+
+
+<i class="fa-solid fa-layer-group text-2xl block mb-2"></i>
+
+Flashcards
+
+
+</a>
+
+
+
+
+
+<a href="{% url 'generate_cbt' note.id %}"
+class="tool-card group bg-orange-600 hover:bg-orange-500 rounded-xl p-3 text-center text-sm font-semibold transition duration-300 hover:-translate-y-1">
+
+
+<i class="fa-solid fa-laptop-code block text-lg mb-1 group-hover:scale-110 transition"></i>
+
+
+CBT Exam
+
+
+</a>
+
+
+
+
+
+<a href="#"
+
+class="tool-card bg-purple-600 hover:bg-purple-500 rounded-2xl p-4 text-center font-bold col-span-2">
+
+
+<i class="fa-solid fa-graduation-cap mr-2"></i>
+
+Theory Questions
+
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Footer -->
+
+
+<div class="border-t border-slate-800 p-6 flex justify-between items-center">
+
+
+<a href="{{ note.file.url }}"
+
+target="_blank"
+
+class="text-cyan-400 hover:text-cyan-300 font-bold">
+
+
+<i class="fa-solid fa-eye mr-2"></i>
+
+View File
+
+
+</a>
+
+
+
+
+
+<button
+
+data-url="{% url 'delete_note' note.id %}"
+
+onclick="openDelete(this.dataset.url)"
+
+class="text-red-400 hover:text-red-300 font-bold">
+
+
+<i class="fa-solid fa-trash mr-2"></i>
+
+Delete
+
+
+</button>
+
+
+</div>
+
+
+
+</div>
+
+
+{% endfor %}
+
+
+</div>
+
+
+
+{% else %}
+
+
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-16 text-center">
+
+
+<div class="w-24 h-24 mx-auto rounded-full bg-cyan-500/20 flex items-center justify-center">
+
+
+<i class="fa-solid fa-folder-open text-5xl text-cyan-400"></i>
+
+
+</div>
+
+
+
+<h2 class="text-3xl font-black mt-6">
+
+No Notes Yet
+
+</h2>
+
+
+
+<p class="text-gray-400 mt-3">
+
+Upload your first lecture note and start learning with AI.
+
+</p>
+
+
+
+<a href="{% url 'upload_note' %}"
+
+class="inline-block mt-8 bg-cyan-500 text-slate-950 px-8 py-3 rounded-xl font-bold">
+
+
+Upload First Note
+
+
+</a>
+
+
+</div>
+
+
+{% endif %}
+
+
+
+</div>
+
+<!-- DELETE CONFIRMATION MODAL -->
+
+<div id="deleteModal" class="delete-overlay">
+
+
+<div class="delete-box">
+
+
+<div class="w-16 h-16 mx-auto rounded-full bg-red-500/20 flex items-center justify-center">
+
+<i class="fa-solid fa-trash text-3xl text-red-400"></i>
+
+</div>
+
+
+
+<h2 class="text-2xl font-black mt-5">
+
+Delete Note?
+
+</h2>
+
+
+
+<p class="text-gray-400 mt-3">
+
+This action cannot be undone.
+
+</p>
+
+
+
+
+<div class="flex gap-4 mt-8">
+
+
+<button onclick="closeDelete()"
+
+class="flex-1 bg-slate-700 hover:bg-slate-600 py-3 rounded-xl font-bold transition">
+
+
+Cancel
+
+
+</button>
+
+
+
+
+
+<a id="deleteLink"
+
+href="#"
+
+class="flex-1 bg-red-500 hover:bg-red-400 py-3 rounded-xl text-center font-bold transition">
+
+
+Delete
+
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+// Notification Auto Hide
+
+setTimeout(()=>{
+
+
+const notification = document.getElementById("notification");
+
+
+if(notification){
+
+
+notification.classList.add("hide");
+
+
+setTimeout(()=>{
+
+
+notification.remove();
+
+
+},400);
+
+
+}
+
+
+},3000);
+
+
+
+
+
+
+// Delete Modal
+
+
+function openDelete(url){
+
+
+document.getElementById("deleteLink").href = url;
+
+
+document.getElementById("deleteModal").style.display="flex";
+
+
+}
+
+
+
+function closeDelete(){
+
+
+document.getElementById("deleteModal").style.display="none";
+
+
+}
+
+
+
+
+
+
+// Close modal when clicking outside
+
+
+document.getElementById("deleteModal").addEventListener(
+"click",
+function(e){
+
+
+if(e.target === this){
+
+
+closeDelete();
+
+
+}
+
+
+});
+
+
+
+
+
+// Universal page notification for JavaScript actions
+
+function showNotification(message,type="error"){
+
+
+const old = document.getElementById("customNotification");
+
+
+if(old){
+
+old.remove();
+
+}
+
+
+
+const notification=document.createElement("div");
+
+
+notification.id="customNotification";
+
+
+notification.className=`notification ${type}`;
+
+
+
+let icon="fa-circle-info";
+
+
+if(type==="success"){
+
+icon="fa-circle-check";
+
+}
+
+
+if(type==="error"){
+
+icon="fa-circle-xmark";
+
+}
+
+
+if(type==="warning"){
+
+icon="fa-triangle-exclamation";
+
+}
+
+
+
+notification.innerHTML=`
+
+<i class="fa-solid ${icon} text-xl"></i>
+
+<span>${message}</span>
+
+`;
+
+
+
+document.body.appendChild(notification);
+
+
+
+
+setTimeout(()=>{
+
+
+notification.classList.add("hide");
+
+
+setTimeout(()=>{
+
+
+notification.remove();
+
+
+},400);
+
+
+},3000);
+
+
+
+}
+
+
+
+</script>
+
+
+
+</body>
+
+</html>

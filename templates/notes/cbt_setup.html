@@ -1,0 +1,288 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CBT Setup | NACOS ExamBite</title>
+
+<link rel="stylesheet" href="{% static 'css/output.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<style>
+
+.custom-select {
+
+appearance:none;
+background:#0f172a;
+border:1px solid #334155;
+cursor:pointer;
+transition:.3s;
+
+}
+
+
+.custom-select:hover {
+
+border-color:#06b6d4;
+
+}
+
+
+.custom-select:focus {
+
+outline:none;
+box-shadow:0 0 0 3px rgba(6,182,212,.3);
+
+}
+
+
+.custom-select option {
+
+background:#0f172a;
+color:white;
+font-weight:bold;
+
+}
+
+
+</style>
+
+
+</head>
+
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+
+
+<div class="min-h-screen flex items-center justify-center px-5">
+
+
+
+<div class="w-full max-w-xl">
+
+
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl text-center">
+
+
+
+
+
+<div class="w-24 h-24 mx-auto rounded-full bg-cyan-500/20 flex items-center justify-center mb-6">
+
+<i class="fa-solid fa-computer text-5xl text-cyan-400"></i>
+
+</div>
+
+
+
+
+
+<h1 class="text-3xl font-black">
+
+Generate CBT Exam
+
+</h1>
+
+
+<p class="text-gray-400 mt-3">
+
+{{ note.title }}
+
+</p>
+
+
+<p class="text-gray-500 mt-2">
+
+Choose your exam settings
+
+</p>
+
+
+
+
+
+<form method="POST" class="mt-8">
+
+{% csrf_token %}
+
+
+
+
+<label class="block text-left text-gray-300 font-bold mb-3">
+
+Number of Questions
+
+</label>
+
+
+
+
+<div class="relative mb-6">
+
+
+<select
+name="amount"
+class="custom-select w-full px-5 py-4 rounded-2xl font-bold">
+
+
+<option value="5">
+
+5 Questions
+
+</option>
+
+
+<option value="10" selected>
+
+10 Questions
+
+</option>
+
+
+<option value="20">
+
+20 Questions
+
+</option>
+
+
+<option value="30">
+
+30 Questions
+
+</option>
+
+
+</select>
+
+
+<i class="fa-solid fa-chevron-down absolute right-5 top-1/2 -translate-y-1/2 text-cyan-400 pointer-events-none"></i>
+
+
+</div>
+
+
+
+
+
+
+<label class="block text-left text-gray-300 font-bold mb-3">
+
+Difficulty Level
+
+</label>
+
+
+
+<div class="relative mb-8">
+
+
+<select
+name="difficulty"
+class="custom-select w-full px-5 py-4 rounded-2xl font-bold">
+
+
+<option value="easy">
+
+Easy
+
+</option>
+
+
+<option value="medium" selected>
+
+Medium
+
+</option>
+
+
+<option value="hard">
+
+Hard
+
+</option>
+
+
+</select>
+
+
+
+<i class="fa-solid fa-chevron-down absolute right-5 top-1/2 -translate-y-1/2 text-cyan-400 pointer-events-none"></i>
+
+
+</div>
+
+
+
+
+
+
+<div class="flex flex-col sm:flex-row gap-4">
+
+
+
+<a href="{% url 'notes' %}"
+
+class="flex-1 bg-slate-700 hover:bg-slate-600 py-4 rounded-2xl font-bold transition">
+
+
+<i class="fa-solid fa-arrow-left mr-2"></i>
+
+Back
+
+
+</a>
+
+
+
+
+
+<button
+type="submit"
+
+class="flex-1 bg-cyan-500 hover:bg-cyan-400 text-slate-950 py-4 rounded-2xl font-black transition hover:scale-105">
+
+
+<i class="fa-solid fa-wand-magic-sparkles mr-2"></i>
+
+Generate CBT
+
+
+</button>
+
+
+
+</div>
+
+
+
+</form>
+
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+{% if messages %}
+
+<div id="notification-container"
+     class="fixed top-5 left-1/2 -translate-x-1/2 z-[9999] space-y-3 w-full max-w-md px-4">
+
+    {% for message in messages %}
+
+    <div class="notification
+        {% if message.tags == 'success' %}
+            bg-green-600 border-green-400
+        {% elif message.tags == 'error' %}
+            bg-red-600 border-red-400
+        {% elif message.tags == 'warning' %}
+            bg-orange-500 border-orange-300 text-black
+        {% else %}
+            bg-blue-600 border-blue-400
+        {% endif %}
+        border rounded-2xl shadow-2xl px-5 py-4 flex justify-between items-center
+        animate-slide-down">
+
+        <span class="font-medium">
+
+            {{ message }}
+
+        </span>
+
+        <button
+            onclick="this.parentElement.remove()"
+            class="ml-4 text-xl hover:scale-110 transition">
+
+            &times;
+
+        </button>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endif %}
