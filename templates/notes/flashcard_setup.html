@@ -1,58 +1,191 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
-<title>Generate Flashcards</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Generate Flashcards | NACOS ExamBite</title>
 
 <link rel="stylesheet" href="{% static 'css/output.css' %}">
 
 </head>
 
 
-<body class="bg-slate-950 text-white">
+<body class="bg-slate-950 text-white min-h-screen">
 
 
-<div class="max-w-md mx-auto mt-20 bg-slate-900 p-8 rounded-3xl">
+<div class="min-h-screen flex items-center justify-center px-6">
 
 
-<h1 class="text-3xl font-bold text-cyan-400 mb-6">
+<div class="w-full max-w-lg">
+
+
+
+<!-- Back -->
+
+<a href="{% url 'notes' %}"
+class="inline-flex items-center gap-2 text-slate-400 hover:text-cyan-400 transition mb-6">
+
+← Back to My Notes
+
+</a>
+
+
+
+
+<!-- Main Card -->
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl">
+
+
+
+<div class="text-center">
+
+
+<div class="w-20 h-20 mx-auto rounded-full bg-cyan-500/20 flex items-center justify-center text-5xl">
+
+🧠
+
+</div>
+
+
+
+<h1 class="text-3xl font-black mt-5">
+
 Generate Flashcards
+
 </h1>
 
 
-<form method="POST">
+
+<p class="text-slate-400 mt-3">
+
+Turn your lecture notes into smart revision cards.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- Note -->
+
+<div class="mt-8 bg-slate-800 rounded-2xl p-5">
+
+
+<p class="text-sm text-slate-400">
+
+Creating flashcards for:
+
+</p>
+
+
+<p class="font-bold text-lg mt-1">
+
+{{ note.title }}
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<form method="POST" class="mt-8">
 
 {% csrf_token %}
 
 
-<label class="block mb-3 text-gray-300">
-Number of Flashcards
+
+
+<label class="block text-slate-300 font-semibold mb-3">
+
+Choose Number of Flashcards
+
 </label>
 
 
-<input 
-type="number"
+
+
+<select
+
 name="amount"
-min="1"
-max="100"
-placeholder="Example: 20"
+
 required
-class="w-full bg-slate-800 p-4 rounded-xl mb-6 text-white">
+
+class="w-full bg-slate-950 border border-slate-700 rounded-xl px-5 py-4 text-white outline-none focus:border-cyan-400 transition">
+
+
+<option value="5">
+
+5 Flashcards
+
+</option>
+
+
+<option value="10">
+
+10 Flashcards
+
+</option>
+
+
+<option value="15">
+
+15 Flashcards
+
+</option>
+
+
+<option value="20">
+
+20 Flashcards
+
+</option>
+
+
+</select>
+
+
+
 
 
 
 <button
-class="w-full bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-3 rounded-xl">
 
-Generate
+type="submit"
+
+class="w-full mt-8 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black py-4 rounded-xl transition hover:scale-105">
+
+
+✨ Generate Flashcards
 
 </button>
 
 
+
 </form>
+
+
+
+</div>
+
+
+
+</div>
+
 
 
 </div>

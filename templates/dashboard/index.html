@@ -1,86 +1,567 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - NACOS ExamBite</title>
+
+    <title>NACOS ExamBite | Dashboard</title>
+
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
+
 </head>
+
 
 <body class="bg-slate-950 text-white">
 
-<div class="flex min-h-screen">
+
+<div class="min-h-screen flex">
+
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 p-6">
 
-        <h1 class="text-2xl font-bold text-cyan-400">
-            NACOS ExamBite
-        </h1>
+    <aside class="w-72 bg-slate-900/80 backdrop-blur border-r border-slate-800 flex flex-col justify-between">
 
-        <nav class="mt-10 space-y-4">
 
-            <a href="#" class="block hover:text-cyan-400">🏠 Dashboard</a>
+        <div>
 
-            <a href="#" class="block hover:text-cyan-400">📄 My Notes</a>
 
-            <a href="#" class="block hover:text-cyan-400">🤖 AI Summary</a>
+            <!-- Logo -->
 
-            <a href="#" class="block hover:text-cyan-400">📝 AI CBT Simulator</a>
+            <div class="p-6 border-b border-slate-800">
 
-            <a href="#" class="block hover:text-cyan-400">🧠 Flashcards</a>
 
-            <a href="#" class="block hover:text-cyan-400">⚙ Settings</a>
+                <h1 class="text-3xl font-bold text-cyan-400">
+                    NACOS
+                </h1>
 
-        </nav>
+
+                <p class="text-slate-400">
+                    ExamBite
+                </p>
+
+
+            </div>
+
+
+
+            <!-- Navigation -->
+
+            <nav class="p-5 space-y-3">
+
+
+                <a href="{% url 'dashboard' %}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl bg-cyan-500 text-white shadow-lg shadow-cyan-500/20 transition hover:scale-105">
+
+                    🏠
+
+                    <span class="font-semibold">
+                        Dashboard
+                    </span>
+
+                </a>
+
+
+
+                <a href="{% url 'notes' %}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-cyan-400 transition">
+
+                    📚
+
+                    <span>
+                        My Notes
+                    </span>
+
+                </a>
+
+
+
+                <a href="{% url 'upload_note' %}"
+                   class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-slate-800 hover:text-cyan-400 transition">
+
+                    ⬆️
+
+                    <span>
+                        Upload Note
+                    </span>
+
+                </a>
+
+
+            </nav>
+
+
+        </div>
+
+
+
+        <!-- User Area -->
+
+
+        <div class="p-5 border-t border-slate-800">
+
+
+            <div class="bg-slate-800 rounded-2xl p-4 mb-4">
+
+
+                <div class="flex items-center gap-3">
+
+
+                    <div class="w-12 h-12 rounded-full bg-cyan-500 flex items-center justify-center text-xl font-bold">
+
+                        {{ request.user.username|first|upper }}
+
+                    </div>
+
+
+
+                    <div>
+
+
+                        <p class="font-semibold">
+
+                            {{ request.user.username }}
+
+                        </p>
+
+
+                        <p class="text-sm text-slate-400">
+
+                            Student
+
+                        </p>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <a href="{% url 'logout' %}"
+               class="block text-center bg-red-500 hover:bg-red-600 rounded-xl py-3 font-semibold transition">
+
+
+                🚪 Logout
+
+
+            </a>
+
+
+        </div>
+
+
 
     </aside>
 
+
+
+
+
     <!-- Main Content -->
-    <main class="flex-1 p-10">
 
-        <h2 class="text-4xl font-bold">
-            Welcome 👋
-        </h2>
 
-        <p class="text-gray-400 mt-2">
-            Ready to study smarter today?
-        </p>
+    <main class="flex-1 p-8">
 
-        <div class="grid md:grid-cols-3 gap-6 mt-10">
 
-            <div class="bg-slate-900 rounded-xl p-6">
-                <h3 class="text-gray-400">Uploaded Notes</h3>
-                <p class="text-4xl font-bold mt-3">0</p>
+
+        <!-- Header -->
+
+
+        <div class="flex justify-between items-center">
+
+
+            <div>
+
+
+                <h2 class="text-4xl font-bold">
+
+                    Welcome back,
+
+                    <span class="text-cyan-400">
+
+                        {{ request.user.first_name|default:request.user.username }}
+
+                    </span>
+
+                    👋
+
+                </h2>
+
+
+
+                <p class="text-slate-400 mt-2">
+
+                    Continue learning smarter with AI.
+
+                </p>
+
+
             </div>
 
-            <div class="bg-slate-900 rounded-xl p-6">
-                <h3 class="text-gray-400">AI Exams</h3>
-                <p class="text-4xl font-bold mt-3">0</p>
-            </div>
 
-            <div class="bg-slate-900 rounded-xl p-6">
-                <h3 class="text-gray-400">Flashcards</h3>
-                <p class="text-4xl font-bold mt-3">0</p>
-            </div>
+
+            <a href="{% url 'upload_note' %}"
+               class="bg-cyan-500 hover:bg-cyan-600 px-6 py-3 rounded-xl font-semibold transition hover:scale-105">
+
+
+                + Upload Note
+
+
+            </a>
+
 
         </div>
+
+
+
+        <!-- Hero Card -->
+
+
+        <div class="mt-8 rounded-3xl bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-600 p-8">
+
+
+            <h3 class="text-3xl font-bold">
+
+                Study smarter, not harder 🚀
+
+            </h3>
+
+
+            <p class="mt-3 text-cyan-100 max-w-2xl">
+
+                Upload your lecture notes and let NACOS ExamBite help you create summaries, CBT questions and flashcards.
+
+            </p>
+
+
+        </div>
+        <!-- Statistics Cards -->
+
+        <div class="grid md:grid-cols-3 gap-6 mt-8">
+
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-cyan-500 hover:-translate-y-1 transition">
+
+
+                <p class="text-slate-400">
+                    Total Notes
+                </p>
+
+
+                <h2 class="text-4xl font-bold mt-3 text-cyan-400">
+
+                    {{ notes_count|default:"0" }}
+
+                </h2>
+
+
+            </div>
+
+
+
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-purple-500 hover:-translate-y-1 transition">
+
+
+                <p class="text-slate-400">
+                    AI Questions
+                </p>
+
+
+                <h2 class="text-4xl font-bold mt-3 text-purple-400">
+
+                    {{ exams_count|default:"0" }}
+
+                </h2>
+
+
+            </div>
+
+
+
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-green-500 hover:-translate-y-1 transition">
+
+
+                <p class="text-slate-400">
+                    Flashcards
+                </p>
+
+
+                <h2 class="text-4xl font-bold mt-3 text-green-400">
+
+                    {{ flashcards_count|default:"0" }}
+
+                </h2>
+
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+        <!-- Quick Actions -->
+
 
         <div class="mt-10">
 
-            <a href="{% url 'upload_note' %}"
-class="bg-cyan-500 px-6 py-3 rounded-lg hover:bg-cyan-600 inline-block">
 
-Upload Lecture Note
+            <h3 class="text-2xl font-bold mb-5">
 
-</a>
+                Quick Actions
+
+            </h3>
+
+
+
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+
+
+                <a href="{% url 'notes' %}"
+                   class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-cyan-500 hover:scale-105 transition">
+
+
+                    <div class="text-5xl mb-4">
+                        📚
+                    </div>
+
+
+                    <h4 class="text-xl font-bold">
+
+                        My Notes
+
+                    </h4>
+
+
+                    <p class="text-slate-400 mt-2">
+
+                        View your uploaded lecture materials.
+
+                    </p>
+
+
+                </a>
+
+
+
+
+
+                <a href="{% url 'upload_note' %}"
+                   class="bg-cyan-500 rounded-2xl p-6 hover:bg-cyan-600 hover:scale-105 transition">
+
+
+                    <div class="text-5xl mb-4">
+                        📤
+                    </div>
+
+
+                    <h4 class="text-xl font-bold">
+
+                        Upload Note
+
+                    </h4>
+
+
+                    <p class="text-cyan-100 mt-2">
+
+                        Upload a new lecture note.
+
+                    </p>
+
+
+                </a>
+
+
+
+
+
+
+                <a href="{% url 'notes' %}"
+                   class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-cyan-500 hover:scale-105 transition">
+
+
+                    <div class="text-5xl mb-4">
+                        🤖
+                    </div>
+
+
+                    <h4 class="text-xl font-bold">
+
+                        AI Tools
+
+                    </h4>
+
+
+                    <p class="text-slate-400 mt-2">
+
+                        Generate summaries, CBT and flashcards.
+
+                    </p>
+
+
+                </a>
+
+
+
+            </div>
+
 
         </div>
 
+
+
+
+
+        <!-- Recent Notes -->
+
+
+        <div class="mt-10">
+
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+
+
+                <div class="flex justify-between items-center mb-5">
+
+
+                    <h3 class="text-2xl font-bold">
+
+                        Recent Notes
+
+                    </h3>
+
+
+                    <a href="{% url 'notes' %}"
+                       class="text-cyan-400 hover:text-cyan-300">
+
+                        View All →
+
+                    </a>
+
+
+                </div>
+                {% if recent_notes %}
+
+
+                    <div class="space-y-4">
+
+
+                        {% for note in recent_notes %}
+
+
+                        <div class="flex justify-between items-center bg-slate-800 rounded-xl p-4 hover:bg-slate-700 transition">
+
+
+                            <div>
+
+
+                                <h4 class="font-semibold">
+
+                                    {{ note.title }}
+
+                                </h4>
+
+
+                                <p class="text-sm text-slate-400 mt-1">
+
+                                    Uploaded {{ note.uploaded_at|date:"M d, Y" }}
+
+                                </p>
+
+
+                            </div>
+
+
+
+                            <a href="{% url 'notes' %}"
+                               class="text-cyan-400 hover:text-cyan-300 font-semibold">
+
+
+                                Open →
+
+                            </a>
+
+
+
+                        </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+
+                {% else %}
+
+
+
+                    <div class="text-center py-8">
+
+
+                        <div class="text-5xl mb-3">
+
+                            📄
+
+                        </div>
+
+
+                        <p class="text-slate-400">
+
+                            No notes uploaded yet.
+
+                        </p>
+
+
+
+                        <a href="{% url 'upload_note' %}"
+                           class="inline-block mt-4 bg-cyan-500 hover:bg-cyan-600 px-5 py-3 rounded-xl transition">
+
+
+                            Upload First Note
+
+                        </a>
+
+
+                    </div>
+
+
+
+                {% endif %}
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+
     </main>
+
+
 
 </div>
 
+
+
 </body>
+
 </html>

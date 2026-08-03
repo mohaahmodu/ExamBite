@@ -10,10 +10,7 @@ from .models import Note, Flashcard
 from .file_reader import read_pdf, read_docx, read_txt
 from .ai import ask_gemini
 
-from accounts.decorators import subscription_required
-
 @login_required
-@subscription_required
 def notes_dashboard(request):
 
     notes = Note.objects.filter(
@@ -234,7 +231,6 @@ def view_summary(request, note_id):
 
 
 @login_required
-@subscription_required
 def generate_cbt(request, note_id):
 
     note = get_object_or_404(
@@ -467,8 +463,6 @@ Study Note:
 
 
 @login_required
-@subscription_required
-
 def view_cbt(request, note_id):
 
     note = get_object_or_404(
@@ -519,7 +513,6 @@ def delete_note(request, note_id):
     )
 
 @login_required
-@subscription_required
 def flashcard_setup(request, note_id):
 
     note = get_object_or_404(
@@ -564,7 +557,6 @@ def flashcard_setup(request, note_id):
 
 
 @login_required
-@subscription_required
 def generate_flashcards(request, note_id):
 
     note = get_object_or_404(
@@ -756,7 +748,6 @@ Lecture Note:
 
 
 @login_required
-@subscription_required
 def view_flashcards(request, note_id):
 
     note = get_object_or_404(

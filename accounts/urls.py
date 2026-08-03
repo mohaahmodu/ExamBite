@@ -18,6 +18,12 @@ urlpatterns = [
     ),
 
     path(
+    "logout/",
+    views.logout_view,
+    name="logout"
+    ),
+
+    path(
         "verify-otp/",
         views.verify_otp,
         name="verify_otp"
@@ -39,24 +45,6 @@ urlpatterns = [
         "reset-password/",
         views.reset_password,
         name="reset_password"
-    ),
-
-    path(
-        "subscribe/",
-        views.subscribe,
-        name="subscribe"
-    ),
-
-    path(
-        "initialize-payment/",
-        views.initialize_payment,
-        name="initialize_payment"
-    ),
-
-    path(
-        "payment/callback/",
-        views.payment_callback,
-        name="payment_callback"
     ),
 
 ]

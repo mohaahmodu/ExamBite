@@ -1,117 +1,908 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NACOS ExamBite</title>
+
+    <title>NACOS ExamBite | AI Study Assistant</title>
 
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 
-<body class="bg-gray-950 text-white">
+<body class="bg-slate-950 text-white overflow-x-hidden">
 
-    <nav class="flex items-center justify-between px-8 py-5 border-b border-gray-800">
+<!-- Background -->
+<div class="fixed inset-0 -z-10 overflow-hidden">
 
-    <h1 class="text-2xl font-bold text-blue-500">
-        NACOS ExamBite
-    </h1>
+    <div class="absolute top-0 left-0 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
 
-    <div class="hidden md:flex gap-8">
+    <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-3xl"></div>
 
-        <a href="#" class="hover:text-blue-400">Home</a>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-indigo-500/5 rounded-full blur-3xl"></div>
 
-        <a href="#" class="hover:text-blue-400">Features</a>
+</div>
 
-        <a href="#" class="hover:text-blue-400">Pricing</a>
+<!-- NAVBAR -->
 
-        <a href="#" class="hover:text-blue-400">Contact</a>
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-slate-950/80 border-b border-slate-800">
 
-    </div>
+    <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
 
-    <div class="flex gap-3">
+        <a href="/" class="text-3xl font-extrabold">
 
-        <button class="px-5 py-2 rounded-lg border border-blue-500">
-            Login
-        </button>
+            <span class="text-blue-500">Exam</span>Bite
 
-        <button class="px-5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700">
-            Get Started
-        </button>
+        </a>
+
+        <div class="hidden lg:flex items-center gap-8">
+
+            <a href="#features" class="hover:text-blue-400 transition">
+                Features
+            </a>
+
+            <a href="#about" class="hover:text-blue-400 transition">
+                About
+            </a>
+
+            <a href="#faq" class="hover:text-blue-400 transition">
+                FAQ
+            </a>
+
+            <a href="{% url 'login' %}"
+               class="px-5 py-2 rounded-xl border border-slate-700 hover:border-blue-500 transition">
+
+                Login
+
+            </a>
+
+            <a href="{% url 'register' %}"
+               class="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 transition font-semibold">
+
+                Get Started
+
+            </a>
+
+        </div>
 
     </div>
 
 </nav>
 
-<section class="max-w-7xl mx-auto px-8 py-24">
+<!-- HERO -->
 
-    <div class="grid md:grid-cols-2 gap-12 items-center">
+<section class="relative">
 
-        <div>
+<div class="max-w-7xl mx-auto px-6 py-24 lg:py-36">
 
-            <span class="bg-blue-600 px-4 py-2 rounded-full text-sm">
-                🚀 AI Powered Learning Platform
-            </span>
+<div class="grid lg:grid-cols-2 gap-20 items-center">
 
-            <h1 class="text-6xl font-bold mt-8 leading-tight">
+<!-- LEFT -->
 
-                Study Smarter.
+<div>
 
-                <span class="text-blue-500">
+<div class="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10">
 
-                    Pass Faster.
+<span>🚀</span>
 
-                </span>
+<span class="text-sm">
 
-            </h1>
+AI Powered Learning Platform
 
-            <p class="mt-6 text-gray-400 text-lg">
+</span>
 
-                Upload lecture notes and instantly generate summaries,
-                flashcards, quizzes and realistic exam simulations using AI.
+</div>
 
-            </p>
+<h1 class="text-5xl lg:text-7xl font-black leading-tight mt-8">
 
-            <div class="flex gap-5 mt-10">
+Study
 
-                <button class="bg-blue-600 px-8 py-4 rounded-xl">
-                    Start Learning
-                </button>
+<span class="text-blue-500">
 
-                <button class="border border-gray-700 px-8 py-4 rounded-xl">
-                    Learn More
-                </button>
+Smarter
 
-            </div>
+</span>
 
-        </div>
+<br>
 
-        <div class="flex justify-center">
+Pass
 
-            <div class="w-96 h-96 rounded-full bg-blue-600/20 blur-3xl absolute"></div>
+<span class="text-cyan-400">
 
-            <div class="relative bg-gray-900 border border-gray-800 rounded-3xl p-10">
+Faster.
 
-                <h2 class="text-2xl font-bold mb-5">
-                    AI Exam Simulation
-                </h2>
+</span>
 
-                <p class="text-gray-400">
-                    Generate MCQs, True/False,
-                    Fill in the Blank and Theory Questions.
-                </p>
+</h1>
 
-                <button class="mt-8 bg-blue-600 px-6 py-3 rounded-xl">
-                    Generate Exam
-                </button>
+<p class="mt-8 text-slate-400 text-lg leading-8 max-w-xl">
 
-            </div>
+Transform your lecture notes into detailed AI summaries,
+interactive flashcards and realistic CBT examinations within seconds.
 
-        </div>
+Spend less time reading and more time understanding.
 
-    </div>
+</p>
+
+<div class="flex flex-wrap gap-5 mt-10">
+
+<a href="{% url 'register' %}"
+
+class="px-8 py-4 rounded-2xl bg-blue-600 hover:bg-blue-700 font-semibold transition">
+
+Start Learning →
+
+</a>
+
+<a href="{% url 'login' %}"
+
+class="px-8 py-4 rounded-2xl border border-slate-700 hover:border-blue-500 transition">
+
+Login
+
+</a>
+
+</div>
+
+<div class="grid grid-cols-3 gap-8 mt-16">
+
+<div>
+
+<h2 class="text-4xl font-bold text-blue-500">
+
+AI
+
+</h2>
+
+<p class="text-slate-400 mt-2">
+
+Powered Learning
+
+</p>
+
+</div>
+
+<div>
+
+<h2 class="text-4xl font-bold text-cyan-400">
+
+PDF
+
+</h2>
+
+<p class="text-slate-400 mt-2">
+
+DOCX & TXT
+
+</p>
+
+</div>
+
+<div>
+
+<h2 class="text-4xl font-bold text-indigo-400">
+
+24/7
+
+</h2>
+
+<p class="text-slate-400 mt-2">
+
+Study Anytime
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="relative">
+
+<div class="absolute inset-0 bg-blue-600/20 blur-3xl rounded-full"></div>
+
+<div class="relative bg-slate-900/80 backdrop-blur-xl border border-slate-800 rounded-3xl p-8 shadow-2xl">
+
+<div class="flex justify-between items-center">
+
+<h3 class="text-2xl font-bold">
+
+AI Dashboard
+
+</h3>
+
+<span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400 text-sm">
+
+Online
+
+</span>
+
+</div>
+
+<div class="space-y-5 mt-8">
+
+<div class="rounded-2xl bg-slate-800 p-5">
+
+<h4 class="font-semibold">
+
+📄 AI Summary
+
+</h4>
+
+<p class="text-slate-400 mt-2">
+
+Generate detailed revision notes instantly.
+
+</p>
+
+</div>
+
+<div class="rounded-2xl bg-slate-800 p-5">
+
+<h4 class="font-semibold">
+
+🧠 Flashcards
+
+</h4>
+
+<p class="text-slate-400 mt-2">
+
+Study using AI-generated flashcards.
+
+</p>
+
+</div>
+
+<div class="rounded-2xl bg-slate-800 p-5">
+
+<h4 class="font-semibold">
+
+📝 CBT Generator
+
+</h4>
+
+<p class="text-slate-400 mt-2">
+
+Practice with realistic AI exam simulations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- FEATURES -->
+
+<section id="features" class="py-28">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center">
+
+<span class="text-blue-500 font-semibold uppercase tracking-widest">
+
+Powerful Features
+
+</span>
+
+<h2 class="text-5xl font-black mt-4">
+
+Everything You Need To
+
+<span class="text-blue-500">
+
+Pass Exams
+
+</span>
+
+</h2>
+
+<p class="mt-6 text-slate-400 max-w-3xl mx-auto text-lg">
+
+ExamBite transforms ordinary lecture notes into interactive AI study materials,
+helping university students prepare faster and retain more knowledge.
+
+</p>
+
+</div>
+
+<div class="grid lg:grid-cols-3 md:grid-cols-2 gap-8 mt-20">
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-blue-500 transition duration-300">
+
+<div class="text-5xl">
+
+📄
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+Upload Lecture Notes
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+Upload PDF, DOCX or TXT lecture notes securely and let AI process them within seconds.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-cyan-500 transition duration-300">
+
+<div class="text-5xl">
+
+🧠
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+AI Summaries
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+Generate long, comprehensive revision notes with important definitions, concepts and exam points.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-indigo-500 transition duration-300">
+
+<div class="text-5xl">
+
+📝
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+CBT Simulation
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+Practice realistic AI-generated multiple-choice examinations before your actual tests.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-purple-500 transition duration-300">
+
+<div class="text-5xl">
+
+🃏
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+Flashcards
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+Memorise key concepts using interactive AI flashcards generated from your own lecture notes.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-green-500 transition duration-300">
+
+<div class="text-5xl">
+
+⚡
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+Instant Results
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+No waiting. Generate summaries, quizzes and study materials almost instantly.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-yellow-500 transition duration-300">
+
+<div class="text-5xl">
+
+🎓
+
+</div>
+
+<h3 class="text-2xl font-bold mt-6">
+
+Built For Students
+
+</h3>
+
+<p class="mt-4 text-slate-400 leading-7">
+
+Designed specifically for university students preparing for quizzes, tests and examinations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </section>
 
+<!-- HOW IT WORKS -->
+
+<section id="about" class="py-28 bg-slate-900/40">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center">
+
+<h2 class="text-5xl font-black">
+
+How It
+
+<span class="text-blue-500">
+
+Works
+
+</span>
+
+</h2>
+
+<p class="mt-6 text-slate-400 text-lg">
+
+Four simple steps to smarter studying.
+
+</p>
+
+</div>
+
+<div class="grid lg:grid-cols-4 gap-10 mt-20">
+
+<div class="text-center">
+
+<div class="w-20 h-20 rounded-full bg-blue-600 flex items-center justify-center mx-auto text-3xl font-bold">
+
+1
+
+</div>
+
+<h3 class="mt-8 text-2xl font-bold">
+
+Upload
+
+</h3>
+
+<p class="mt-4 text-slate-400">
+
+Upload your lecture materials in PDF, DOCX or TXT format.
+
+</p>
+
+</div>
+
+<div class="text-center">
+
+<div class="w-20 h-20 rounded-full bg-cyan-500 flex items-center justify-center mx-auto text-3xl font-bold">
+
+2
+
+</div>
+
+<h3 class="mt-8 text-2xl font-bold">
+
+AI Analysis
+
+</h3>
+
+<p class="mt-4 text-slate-400">
+
+Our AI analyses the document and understands the lecture content.
+
+</p>
+
+</div>
+
+<div class="text-center">
+
+<div class="w-20 h-20 rounded-full bg-indigo-500 flex items-center justify-center mx-auto text-3xl font-bold">
+
+3
+
+</div>
+
+<h3 class="mt-8 text-2xl font-bold">
+
+Generate
+
+</h3>
+
+<p class="mt-4 text-slate-400">
+
+Create summaries, flashcards and CBT practice questions instantly.
+
+</p>
+
+</div>
+
+<div class="text-center">
+
+<div class="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center mx-auto text-3xl font-bold">
+
+4
+
+</div>
+
+<h3 class="mt-8 text-2xl font-bold">
+
+Study & Pass
+
+</h3>
+
+<p class="mt-4 text-slate-400">
+
+Revise smarter, test yourself and build confidence before exams.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+<!-- STATISTICS -->
+
+<section class="py-28">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-10 text-center">
+
+<h2 class="text-5xl font-black text-blue-500">
+24/7
+</h2>
+
+<p class="mt-4 text-slate-400">
+AI Study Assistant
+</p>
+
+</div>
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-10 text-center">
+
+<h2 class="text-5xl font-black text-cyan-400">
+3
+</h2>
+
+<p class="mt-4 text-slate-400">
+Supported File Types
+</p>
+
+</div>
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-10 text-center">
+
+<h2 class="text-5xl font-black text-green-400">
+100%
+</h2>
+
+<p class="mt-4 text-slate-400">
+AI Generated Content
+</p>
+
+</div>
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-10 text-center">
+
+<h2 class="text-5xl font-black text-purple-400">
+∞
+</h2>
+
+<p class="mt-4 text-slate-400">
+Study Possibilities
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- TESTIMONIALS -->
+
+<section class="py-28 bg-slate-900/40">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center">
+
+<h2 class="text-5xl font-black">
+
+Loved By
+
+<span class="text-blue-500">
+
+Students
+
+</span>
+
+</h2>
+
+<p class="text-slate-400 mt-6 text-lg">
+
+Helping students revise smarter with AI.
+
+</p>
+
+</div>
+
+<div class="grid lg:grid-cols-3 gap-8 mt-20">
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-8">
+
+<div class="text-yellow-400 text-2xl">
+★★★★★
+</div>
+
+<p class="mt-6 text-slate-300 leading-8">
+
+"I uploaded my lecture notes and got detailed summaries within seconds.
+Revision became much easier."
+
+</p>
+
+<h4 class="mt-8 font-bold">
+
+Computer Science Student
+
+</h4>
+
+</div>
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-8">
+
+<div class="text-yellow-400 text-2xl">
+★★★★★
+</div>
+
+<p class="mt-6 text-slate-300 leading-8">
+
+"The CBT generator feels like a real examination.
+It helped me prepare with confidence."
+
+</p>
+
+<h4 class="mt-8 font-bold">
+
+University Student
+
+</h4>
+
+</div>
+
+<div class="bg-slate-900 rounded-3xl border border-slate-800 p-8">
+
+<div class="text-yellow-400 text-2xl">
+★★★★★
+</div>
+
+<p class="mt-6 text-slate-300 leading-8">
+
+"The flashcards are my favourite feature.
+I can memorise difficult concepts much faster."
+
+</p>
+
+<h4 class="mt-8 font-bold">
+
+ExamBite User
+
+</h4>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FAQ -->
+
+<section id="faq" class="py-28">
+
+<div class="max-w-5xl mx-auto px-6">
+
+<div class="text-center">
+
+<h2 class="text-5xl font-black">
+
+Frequently Asked
+
+<span class="text-blue-500">
+
+Questions
+
+</span>
+
+</h2>
+
+</div>
+
+<div class="mt-16 space-y-6">
+
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+
+<h3 class="font-bold text-xl">
+
+Can I upload PDF files?
+
+</h3>
+
+<p class="mt-3 text-slate-400">
+
+Yes. ExamBite supports PDF, DOCX and TXT lecture notes.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+
+<h3 class="font-bold text-xl">
+
+Are the summaries AI generated?
+
+</h3>
+
+<p class="mt-3 text-slate-400">
+
+Yes. Every summary, flashcard and CBT question is generated using AI.
+
+</p>
+
+</div>
+
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+
+<h3 class="font-bold text-xl">
+
+Can I study on my phone?
+
+</h3>
+
+<p class="mt-3 text-slate-400">
+
+Absolutely. ExamBite is fully responsive and works on phones, tablets and computers.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FINAL CTA -->
+
+<section class="py-28">
+
+<div class="max-w-5xl mx-auto px-6">
+
+<div class="rounded-[40px] bg-gradient-to-r from-blue-600 to-cyan-500 p-16 text-center">
+
+<h2 class="text-5xl font-black">
+
+Ready To Transform
+Your Study Experience?
+
+</h2>
+
+<p class="mt-6 text-blue-100 text-lg">
+
+Join ExamBite today and start studying smarter with AI.
+
+</p>
+
+<div class="mt-10 flex justify-center gap-6 flex-wrap">
+
+<a href="{% url 'register' %}"
+
+class="bg-white text-black px-8 py-4 rounded-xl font-bold hover:scale-105 transition">
+
+Create Free Account
+
+</a>
+
+<a href="{% url 'login' %}"
+
+class="border border-white px-8 py-4 rounded-xl hover:bg-white hover:text-black transition">
+
+Login
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="border-t border-slate-800 py-12">
+
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+
+<div>
+
+<h2 class="text-3xl font-black">
+
+<span class="text-blue-500">
+
+Exam
+
+</span>Bite
+
+</h2>
+
+<p class="text-slate-500 mt-3">
+
+AI Powered Learning Platform for University Students.
+
+</p>
+
+</div>
+
+<div class="mt-8 md:mt-0 text-slate-500">
+
+© 2026 ExamBite. All Rights Reserved.
+
+</div>
+
+</div>
+
+</footer>
+
 </body>
+
 </html>

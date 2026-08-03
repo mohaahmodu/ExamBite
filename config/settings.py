@@ -27,9 +27,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-0vgixe1euu0q&-%rhllz)be$wae%w+=z771i2zt7_k_gr_v%cw'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+]
 
 
 # Application definition
@@ -47,7 +50,6 @@ INSTALLED_APPS = [
     'notes',
     'ai',
     'exams',
-    'payments',
 ]
 
 MIDDLEWARE = [
@@ -150,8 +152,3 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
-import os
-
-PAYSTACK_PUBLIC_KEY = os.getenv("PAYSTACK_PUBLIC_KEY")
-PAYSTACK_SECRET_KEY = os.getenv("PAYSTACK_SECRET_KEY")
