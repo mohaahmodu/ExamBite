@@ -65,11 +65,12 @@ def register(request):
 
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import check_password
 from django.contrib import messages
+from django.shortcuts import render, redirect
 
 def login_view(request):
     if request.method == "POST":
-
         login_input = request.POST.get("username")
         password = request.POST.get("password")
 
@@ -77,31 +78,36 @@ def login_view(request):
 
         if "@" in login_input:
             try:
-                username = User.objects.get(email=login_input).username
+                user = User.objects.get(email=login_input)
+                username = user.username
             except User.DoesNotExist:
-                pass
+                print("USER NOT FOUND")
+                user = None
+        else:
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                print("USER NOT FOUND")
+                user = None
 
-        try:
-            u = User.objects.get(username=username)
-            print("USER EXISTS:", u.username)
-            print("ACTIVE:", u.is_active)
-            print("CHECK PASSWORD:", u.check_password(password))
-        except User.DoesNotExist:
-            print("USER NOT FOUND")
+        if user:
+            print("USERNAME:", user.username)
+            print("ACTIVE:", user.is_active)
+            print("PASSWORD CHECK:", check_password(password, user.password))
 
-        user = authenticate(
+        auth_user = authenticate(
             request,
             username=username,
             password=password
         )
 
-        print("AUTH RESULT:", user)
+        print("AUTH RESULT:", auth_user)
 
-        if user:
-            login(request, user)
+        if auth_user:
+            login(request, auth_user)
             return redirect("dashboard")
 
-        messages.error(request, "Invalid username/email or password.")
+        messages.error(request, "Invalid username or password.")
 
     return render(request, "login.html")
 
