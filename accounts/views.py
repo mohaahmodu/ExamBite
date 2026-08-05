@@ -63,8 +63,11 @@ def register(request):
 
 
 
-def login_view(request):
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
+from django.contrib import messages
 
+def login_view(request):
     if request.method == "POST":
 
         login_input = request.POST.get("username")
@@ -73,14 +76,18 @@ def login_view(request):
         username = login_input
 
         if "@" in login_input:
-
             try:
-                user_obj = User.objects.get(email=login_input)
-                username = user_obj.username
-
+                username = User.objects.get(email=login_input).username
             except User.DoesNotExist:
                 pass
 
+        try:
+            u = User.objects.get(username=username)
+            print("USER EXISTS:", u.username)
+            print("ACTIVE:", u.is_active)
+            print("CHECK PASSWORD:", u.check_password(password))
+        except User.DoesNotExist:
+            print("USER NOT FOUND")
 
         user = authenticate(
             request,
@@ -88,19 +95,13 @@ def login_view(request):
             password=password
         )
 
+        print("AUTH RESULT:", user)
 
         if user:
-
             login(request, user)
-
             return redirect("dashboard")
 
-
-        messages.error(
-            request,
-            "Invalid username/email or password."
-        )
-
+        messages.error(request, "Invalid username/email or password.")
 
     return render(request, "login.html")
 
